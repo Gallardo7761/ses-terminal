@@ -17,5 +17,5 @@ services:
         max-file: "3"
 
 networks:
-  core_net:
+  proxy_net:
     external: true
