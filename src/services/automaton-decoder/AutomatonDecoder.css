@@ -1,0 +1,20 @@
+.ad-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--hd-space-4);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .ad-layout { grid-template-columns: 1fr; }
+}
+
+.ad-settings { display: flex; flex-direction: column; gap: var(--hd-space-2); }
+.ad-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hd-space-3);
+  padding: 6px 10px;
+  background: var(--hd-panel-solid);
+  border: 1px solid var(--hd-border);
+}

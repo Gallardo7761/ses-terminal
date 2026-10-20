@@ -1,0 +1,33 @@
+/* Ajustes de páginas concretas */
+.hub-intro { margin-bottom: var(--hd-space-6); }
+.hub-directive-row {
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-5);
+  flex-wrap: wrap;
+}
+.hub-directive {
+  flex: 1;
+  min-width: 240px;
+  margin: 0;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--hd-text);
+}
+
+/* Tarjetas de ministerio en el hub */
+.hub-ministry {
+  display: flex;
+  gap: var(--hd-space-4);
+  align-items: flex-start;
+  padding: var(--hd-space-4);
+  background: var(--hd-panel-solid);
+  border: 1px solid var(--hd-border);
+  border-left: 3px solid var(--ministry);
+}
+.hub-ministry img { width: 52px; height: 52px; flex: none; }
+.hub-ministry p { margin: 6px 0 0; font-size: 14px; font-style: italic; color: var(--hd-text-dim); }
+.hub-ministry .hd-rec { margin-top: 8px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+.hub-ministry.is-watching {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--ministry) 12%, transparent), transparent), var(--hd-panel-solid);
+}

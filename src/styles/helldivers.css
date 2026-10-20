@@ -1,0 +1,1018 @@
+/* =====================================================================
+   SUPER EARTH // SISTEMA DE INTERFAZ ESTÁNDAR (SIE-2184)
+   Hoja de estilos aprobada por el Ministerio de la Verdad.
+   Modificarla sin autorización constituye un acto de disidencia.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. VARIABLES
+   --------------------------------------------------------------------- */
+:root {
+  /* Colores de estado y facción (guía oficial) */
+  --hd-yellow: #ffe900;          /* Marca Helldivers II / call to action */
+  --hd-equip: #4ee077;           /* Equipado / confirmado */
+  --hd-locked: #af4141;          /* Bloqueado / denegado */
+  --hd-terminid: #ffb900;       /* Termínidos */
+  --hd-automaton: #ff7171;      /* Autómatas & Cyborgs */
+  --hd-illuminate: #c08ae9;     /* Iluminados */
+
+  /* Variantes translúcidas para fondos y brillos */
+  --hd-yellow-08: rgb(255 233 0 / 0.08);
+  --hd-yellow-15: rgb(255 233 0 / 0.15);
+  --hd-yellow-40: rgb(255 233 0 / 0.4);
+  --hd-equip-15: rgb(78 224 119 / 0.15);
+  --hd-automaton-15: rgb(255 113 113 / 0.15);
+  --hd-locked-20: rgb(175 65 65 / 0.2);
+
+  /* Superficies */
+  --hd-bg: #0c0d0e;
+  --hd-bg-2: #131416;
+  --hd-panel: rgb(26 27 29 / 0.88);
+  --hd-panel-solid: #1a1b1d;
+  --hd-panel-raised: #232427;
+  --hd-border: #3d3e41;
+  --hd-border-soft: #2a2b2e;
+  --hd-border-strong: #6b6c70;
+
+  /* Texto */
+  --hd-text: #e9e9e6;
+  --hd-text-dim: #a3a3a0;
+  --hd-text-mute: #6c6c6a;
+  --hd-text-on-yellow: #121212;
+
+  /* Tipografía
+     FS Sinclair y Nimbus Sans Extended son comerciales; usamos sustitutos
+     libres con el mismo carácter. Si tienes las originales, cámbialas aquí. */
+  --hd-font-title: 'Archivo', 'Nimbus Sans Extended', 'Arial Black', sans-serif;
+  --hd-font-body: 'Chakra Petch', 'FS Sinclair', 'Segoe UI', sans-serif;
+  --hd-font-mono: 'Share Tech Mono', 'Consolas', monospace;
+
+  /* Espaciado y forma */
+  --hd-space-1: 4px;
+  --hd-space-2: 8px;
+  --hd-space-3: 12px;
+  --hd-space-4: 16px;
+  --hd-space-5: 24px;
+  --hd-space-6: 32px;
+  --hd-space-7: 48px;
+  --hd-radius: 2px;
+  --hd-cut: 10px; /* tamaño de las esquinas recortadas */
+
+  --hd-glow: 0 0 0 1px var(--hd-yellow), 0 0 14px rgb(255 233 0 / 0.35);
+  --hd-transition: 120ms ease-out;
+
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------
+   2. BASE
+   --------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--hd-bg);
+  /* Viñeta + rejilla táctica muy sutil */
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgb(255 233 0 / 0.06), transparent 55%),
+    radial-gradient(ellipse at 50% 120%, rgb(0 0 0 / 0.9), transparent 60%),
+    linear-gradient(rgb(255 255 255 / 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.018) 1px, transparent 1px);
+  background-size: auto, auto, 48px 48px, 48px 48px;
+  background-attachment: fixed;
+  color: var(--hd-text);
+  font-family: var(--hd-font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grano de película + scanlines por encima de todo */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+::selection {
+  background: var(--hd-yellow);
+  color: var(--hd-text-on-yellow);
+}
+
+a {
+  color: var(--hd-yellow);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+:focus-visible {
+  outline: 2px solid var(--hd-yellow);
+  outline-offset: 2px;
+}
+
+/* Barra de desplazamiento */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hd-border-strong) transparent;
+}
+
+/* ---------------------------------------------------------------------
+   3. TIPOGRAFÍA
+   --------------------------------------------------------------------- */
+.hd-title {
+  font-family: var(--hd-font-title);
+  font-weight: 800;
+  font-stretch: 125%;
+  font-variation-settings: 'wdth' 125;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  margin: 0;
+}
+.hd-title--xl { font-size: clamp(28px, 5vw, 44px); }
+.hd-title--lg { font-size: clamp(22px, 3.4vw, 30px); }
+.hd-title--md { font-size: 21px; }
+.hd-title--sm { font-size: 16px; }
+.hd-title--yellow { color: var(--hd-yellow); }
+
+.hd-subtitle {
+  font-family: var(--hd-font-body);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+  margin: 0;
+}
+
+.hd-text-dim { color: var(--hd-text-dim); }
+.hd-text-mute { color: var(--hd-text-mute); }
+.hd-mono { font-family: var(--hd-font-mono); }
+
+/* Etiqueta de sección con bloque rayado (como "HOW TO USE THIS GUIDE") */
+.hd-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hd-space-2);
+  padding: 2px 10px 2px 6px;
+  font-family: var(--hd-font-body);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hd-yellow);
+  background:
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.07) 0 2px, transparent 2px 6px);
+  border-left: 3px solid var(--hd-yellow);
+  margin: 0 0 var(--hd-space-3);
+}
+.hd-label--red { color: var(--hd-automaton); border-color: var(--hd-automaton); }
+.hd-label--green { color: var(--hd-equip); border-color: var(--hd-equip); }
+
+/* ---------------------------------------------------------------------
+   4. MAQUETACIÓN GENERAL
+   --------------------------------------------------------------------- */
+.hd-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hd-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 var(--hd-space-4);
+}
+
+.hd-main {
+  flex: 1;
+  padding: var(--hd-space-6) 0 var(--hd-space-7);
+}
+
+.hd-grid {
+  display: grid;
+  gap: var(--hd-space-4);
+}
+.hd-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.hd-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.hd-grid--auto { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+
+@media (max-width: 860px) {
+  .hd-grid--2,
+  .hd-grid--3 { grid-template-columns: 1fr; }
+}
+
+.hd-stack { display: flex; flex-direction: column; gap: var(--hd-space-4); }
+.hd-row { display: flex; align-items: center; gap: var(--hd-space-3); flex-wrap: wrap; }
+.hd-spacer { flex: 1; }
+
+/* Divisor: línea fina con tramos rayados en los extremos */
+.hd-divider {
+  height: 6px;
+  border: 0;
+  margin: var(--hd-space-7) 0 var(--hd-space-6);
+  background:
+    repeating-linear-gradient(-45deg, var(--hd-yellow) 0 2px, transparent 2px 6px) left center / 96px 6px no-repeat,
+    repeating-linear-gradient(-45deg, var(--hd-border-strong) 0 2px, transparent 2px 6px) right center / 48px 6px no-repeat,
+    linear-gradient(var(--hd-border), var(--hd-border)) center / 100% 1px no-repeat;
+}
+
+/* ---------------------------------------------------------------------
+   5. CABECERA (barra superior estilo "SHIP MANAGEMENT")
+   --------------------------------------------------------------------- */
+.hd-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: linear-gradient(180deg, rgb(12 13 14 / 0.97), rgb(12 13 14 / 0.88));
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--hd-border);
+}
+.hd-topbar::after {
+  /* línea de brillo inferior */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--hd-yellow-40), transparent);
+}
+
+.hd-topbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-4);
+  min-height: 68px;
+}
+
+.hd-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-3);
+  color: inherit;
+}
+.hd-brand:hover { text-decoration: none; }
+
+.hd-brand__text { display: flex; flex-direction: column; }
+.hd-brand__name {
+  font-family: var(--hd-font-title);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 125;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.hd-brand__tag {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hd-yellow);
+}
+
+.hd-topbar__status {
+  display: flex;
+  gap: var(--hd-space-5);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+}
+.hd-topbar__status strong { color: var(--hd-text); font-weight: 600; }
+
+.hd-brand__name,
+.hd-topbar__status > * { white-space: nowrap; }
+
+@media (max-width: 1120px) {
+  .hd-topbar__year { display: none; }
+}
+@media (max-width: 960px) {
+  .hd-topbar__status { display: none; }
+}
+
+/* Indicador de grabación/vigilancia (punto rojo parpadeante) */
+.hd-rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--hd-automaton);
+}
+.hd-rec::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: hd-blink 1.6s steps(1) infinite;
+}
+
+/* Emblema rombo con calavera (icono de sección) */
+.hd-emblem {
+  --size: 44px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.hd-emblem::before {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  transform: rotate(45deg);
+  border: 2px solid var(--hd-yellow);
+  background:
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.06) 0 2px, transparent 2px 5px),
+    var(--hd-panel-solid);
+}
+.hd-emblem svg {
+  position: relative;
+  width: 46%;
+  height: 46%;
+  fill: var(--hd-yellow);
+}
+/* Con el emblema de Super Tierra no hay rombo: el logo ya tiene demasiado detalle */
+.hd-emblem--logo::before { display: none; }
+.hd-emblem--logo .hd-logo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: var(--hd-yellow);
+  filter: drop-shadow(0 0 8px rgb(255 233 0 / 0.35));
+}
+.hd-emblem--lg { --size: 84px; }
+
+/* Emblema de Super Tierra (PNG/WebP blanco usado como máscara → toma el color de `color`) */
+.hd-logo {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+}
+
+/* ---------------------------------------------------------------------
+   6. BANNER DE SECCIÓN (las franjas "TYPE & COLOR", "UI COMPONENTS")
+   --------------------------------------------------------------------- */
+.hd-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-5);
+  padding: var(--hd-space-6) var(--hd-space-5);
+  margin-bottom: var(--hd-space-6);
+  border-top: 2px solid var(--hd-yellow);
+  border-bottom: 2px solid var(--hd-yellow);
+  background:
+    linear-gradient(90deg, rgb(255 233 0 / 0.07), transparent 60%),
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.025) 0 2px, transparent 2px 8px),
+    var(--hd-bg-2);
+  overflow: hidden;
+}
+.hd-banner__body { display: flex; flex-direction: column; gap: var(--hd-space-2); }
+.hd-banner p { margin: 0; max-width: 70ch; color: var(--hd-text-dim); }
+.hd-banner__aside { margin-left: auto; }
+@media (max-width: 860px) {
+  .hd-banner { flex-wrap: wrap; }
+  .hd-banner__aside { margin-left: 0; }
+}
+
+/* Sello de ministerio */
+.hd-ministry {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hd-space-2);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ministry, var(--hd-text-dim));
+}
+.hd-ministry img { width: 22px; height: 22px; flex: none; }
+.hd-ministry small {
+  display: block;
+  font-size: 10px;
+  color: var(--hd-text-mute);
+  letter-spacing: 0.14em;
+}
+.hd-ministry--lg {
+  gap: var(--hd-space-3);
+  padding: var(--hd-space-3) var(--hd-space-4);
+  border: 1px solid color-mix(in srgb, var(--ministry) 45%, transparent);
+  background: rgb(0 0 0 / 0.35);
+  font-size: 14px;
+}
+.hd-ministry--lg img { width: 48px; height: 48px; }
+
+.hd-ministries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hd-space-2);
+}
+.hd-ministries__caption {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hd-text-mute);
+}
+.hd-tile__ministries {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ---------------------------------------------------------------------
+   7. PANELES (marco con línea discontinua y esquinas, como las plantillas)
+   --------------------------------------------------------------------- */
+.hd-panel {
+  position: relative;
+  background: var(--hd-panel);
+  border: 1px solid var(--hd-border);
+  padding: var(--hd-space-5);
+}
+/* Esquineras amarillas */
+.hd-panel--corners::before,
+.hd-panel--corners::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--hd-yellow);
+  pointer-events: none;
+}
+.hd-panel--corners::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.hd-panel--corners::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+.hd-panel--dashed {
+  background: rgb(18 19 21 / 0.75);
+  border: 1px dashed var(--hd-border-strong);
+  border-radius: 10px;
+}
+
+.hd-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-3);
+  margin: calc(var(--hd-space-5) * -1) calc(var(--hd-space-5) * -1) var(--hd-space-5);
+  padding: var(--hd-space-3) var(--hd-space-5);
+  border-bottom: 1px solid var(--hd-border);
+  background: linear-gradient(90deg, rgb(255 255 255 / 0.04), transparent);
+}
+
+.hd-panel__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-4);
+  flex-wrap: wrap;
+  margin: var(--hd-space-5) calc(var(--hd-space-5) * -1) calc(var(--hd-space-5) * -1);
+  padding: var(--hd-space-3) var(--hd-space-5);
+  border-top: 1px solid var(--hd-border);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+}
+
+/* ---------------------------------------------------------------------
+   8. BOTONES
+   --------------------------------------------------------------------- */
+.hd-btn {
+  --btn-color: var(--hd-yellow);
+  --btn-bg: transparent;
+  --btn-fg: var(--btn-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hd-space-2);
+  min-height: 36px;
+  padding: 6px 18px;
+  font-family: var(--hd-font-body);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--btn-fg);
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-color);
+  border-radius: var(--hd-radius);
+  cursor: pointer;
+  transition: background var(--hd-transition), color var(--hd-transition), box-shadow var(--hd-transition);
+  user-select: none;
+}
+.hd-btn:hover:not(:disabled),
+.hd-btn--solid {
+  --btn-bg: var(--btn-color);
+  --btn-fg: var(--hd-text-on-yellow);
+  box-shadow: 0 0 14px -2px var(--btn-color);
+}
+.hd-btn:active:not(:disabled) { transform: translateY(1px); }
+.hd-btn:disabled {
+  --btn-color: var(--hd-border-strong);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.hd-btn--equip { --btn-color: var(--hd-equip); }
+.hd-btn--danger { --btn-color: var(--hd-automaton); }
+.hd-btn--ghost {
+  --btn-color: var(--hd-border-strong);
+  --btn-fg: var(--hd-text);
+}
+.hd-btn--ghost:hover:not(:disabled) {
+  --btn-color: var(--hd-text);
+  --btn-fg: var(--hd-text-on-yellow);
+}
+.hd-btn--sm { min-height: 28px; padding: 3px 12px; font-size: 12px; }
+.hd-btn--block { width: 100%; }
+
+
+/* ---------------------------------------------------------------------
+   9. BOTONES DE LISTA (filas de menú con valor a la derecha)
+   --------------------------------------------------------------------- */
+.hd-list { display: flex; flex-direction: column; gap: 6px; }
+
+.hd-list-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--hd-space-3);
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 14px;
+  font-family: var(--hd-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--hd-text);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.05), transparent),
+    var(--hd-panel-solid);
+  border: 1px solid var(--hd-border);
+  cursor: pointer;
+  transition: border-color var(--hd-transition), box-shadow var(--hd-transition), background var(--hd-transition);
+  /* esquina inferior derecha recortada */
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+.hd-list-btn__value {
+  margin-left: auto;
+  color: var(--hd-text-dim);
+  font-weight: 600;
+}
+.hd-list-btn:hover {
+  border-color: var(--hd-text-dim);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.09), transparent),
+    var(--hd-panel-raised);
+}
+.hd-list-btn.is-active,
+.hd-list-btn[aria-current='page'],
+.hd-list-btn[aria-selected='true'] {
+  color: var(--hd-yellow);
+  border-color: var(--hd-yellow);
+  background: linear-gradient(90deg, var(--hd-yellow-15), var(--hd-yellow-08));
+  box-shadow: inset 0 0 12px rgb(255 233 0 / 0.12);
+}
+.hd-list-btn.is-active .hd-list-btn__value { color: var(--hd-yellow); }
+.hd-list-btn:disabled,
+.hd-list-btn.is-disabled {
+  color: var(--hd-text-mute);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Insignia de esquina (bloqueado / equipado / nuevo) */
+.hd-corner-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 22px;
+  height: 22px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  background: var(--badge, var(--hd-yellow));
+}
+.hd-corner-badge--locked { --badge: var(--hd-locked); }
+.hd-corner-badge--equip { --badge: var(--hd-equip); }
+
+/* ---------------------------------------------------------------------
+   10. MOSAICOS (botones de rejilla / tarjetas de servicio)
+   --------------------------------------------------------------------- */
+.hd-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hd-space-3);
+  padding: var(--hd-space-4);
+  min-height: 180px;
+  color: var(--hd-text);
+  text-align: left;
+  font-family: var(--hd-font-body);
+  background:
+    repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.018) 0 2px, transparent 2px 7px),
+    linear-gradient(160deg, var(--hd-panel-raised), var(--hd-panel-solid));
+  border: 1px solid var(--hd-border);
+  cursor: pointer;
+  transition: border-color var(--hd-transition), box-shadow var(--hd-transition), transform var(--hd-transition);
+}
+.hd-tile:hover:not(.is-locked) {
+  border-color: var(--hd-yellow);
+  box-shadow: var(--hd-glow);
+  text-decoration: none;
+}
+.hd-tile.is-selected {
+  border-color: var(--hd-yellow);
+  background:
+    linear-gradient(160deg, rgb(255 233 0 / 0.22), rgb(255 233 0 / 0.06)),
+    var(--hd-panel-solid);
+  box-shadow: var(--hd-glow);
+}
+.hd-tile.is-locked {
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+  opacity: 0.6;
+}
+.hd-tile__icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--tile-accent, var(--hd-yellow));
+  color: var(--tile-accent, var(--hd-yellow));
+  background: rgb(0 0 0 / 0.35);
+}
+.hd-tile__icon svg { width: 28px; height: 28px; fill: currentColor; }
+.hd-tile__desc { margin: 0; font-size: 14px; color: var(--hd-text-dim); }
+.hd-tile__meta {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hd-text-mute);
+}
+
+/* ---------------------------------------------------------------------
+   11. PESTAÑAS
+   --------------------------------------------------------------------- */
+.hd-tabs {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: var(--hd-space-2);
+}
+.hd-tab {
+  position: relative;
+  min-width: 110px;
+  padding: 6px 14px 10px;
+  font-family: var(--hd-font-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--hd-border-strong);
+  cursor: pointer;
+}
+.hd-tab:hover { color: var(--hd-text); }
+.hd-tab[aria-selected='true'] {
+  color: var(--hd-text);
+  border: 1px solid var(--hd-text-dim);
+  border-bottom: 0;
+}
+.hd-tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: repeating-linear-gradient(-45deg, var(--hd-text) 0 2px, transparent 2px 5px);
+}
+
+/* ---------------------------------------------------------------------
+   12. FORMULARIOS
+   --------------------------------------------------------------------- */
+.hd-field { display: flex; flex-direction: column; gap: var(--hd-space-2); }
+.hd-field__label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+}
+
+.hd-input,
+.hd-textarea,
+.hd-select {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: var(--hd-font-mono);
+  font-size: 15px;
+  color: var(--hd-text);
+  background: rgb(0 0 0 / 0.45);
+  border: 1px solid var(--hd-border);
+  border-radius: var(--hd-radius);
+  transition: border-color var(--hd-transition), box-shadow var(--hd-transition);
+}
+.hd-textarea {
+  min-height: 180px;
+  resize: vertical;
+  line-height: 1.6;
+}
+.hd-input:focus,
+.hd-textarea:focus,
+.hd-select:focus {
+  outline: none;
+  border-color: var(--hd-yellow);
+  box-shadow: 0 0 0 1px var(--hd-yellow), 0 0 12px rgb(255 233 0 / 0.2);
+}
+.hd-input::placeholder,
+.hd-textarea::placeholder { color: var(--hd-text-mute); }
+
+/* Selector tipo ajustes: ◀ VALOR ▶ */
+.hd-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hd-space-2);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hd-stepper button {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: var(--hd-text-dim);
+  border: 0;
+  cursor: pointer;
+  font-size: 12px;
+}
+.hd-stepper button:hover { color: var(--hd-yellow); }
+.hd-stepper__value {
+  min-width: 120px;
+  text-align: center;
+  padding-bottom: 3px;
+  border-bottom: 3px solid var(--hd-text-dim);
+}
+
+/* Interruptor */
+.hd-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--hd-space-3);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+  user-select: none;
+}
+.hd-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.hd-toggle__box {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--hd-border-strong);
+  display: grid;
+  place-items: center;
+  background: rgb(0 0 0 / 0.4);
+}
+.hd-toggle input:checked + .hd-toggle__box {
+  border-color: var(--hd-yellow);
+  background: var(--hd-yellow);
+  box-shadow: 0 0 8px rgb(255 233 0 / 0.5);
+}
+.hd-toggle input:checked + .hd-toggle__box::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--hd-text-on-yellow);
+}
+.hd-toggle input:checked ~ span:last-child { color: var(--hd-text); }
+.hd-toggle input:focus-visible + .hd-toggle__box { outline: 2px solid var(--hd-yellow); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------
+   13. ESTADÍSTICAS (barras segmentadas de "STATS")
+   --------------------------------------------------------------------- */
+.hd-stat {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: var(--hd-space-3);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--hd-border-soft);
+}
+.hd-stat__bar {
+  --value: 50;
+  width: 90px;
+  height: 10px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 4px, var(--hd-bg) 4px 6px),
+    linear-gradient(90deg, var(--hd-text) calc(var(--value) * 1%), var(--hd-border) 0);
+}
+.hd-stat__value { font-family: var(--hd-font-mono); color: var(--hd-text-dim); min-width: 3ch; text-align: right; }
+
+/* ---------------------------------------------------------------------
+   14. AVISOS / ALERTAS
+   --------------------------------------------------------------------- */
+.hd-alert {
+  --alert: var(--hd-yellow);
+  display: flex;
+  gap: var(--hd-space-3);
+  align-items: flex-start;
+  padding: var(--hd-space-3) var(--hd-space-4);
+  border-left: 3px solid var(--alert);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--alert) 14%, transparent), transparent);
+  font-size: 14px;
+}
+.hd-alert strong {
+  color: var(--alert);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.hd-alert p { margin: 2px 0 0; color: var(--hd-text-dim); }
+.hd-alert--danger { --alert: var(--hd-automaton); }
+.hd-alert--success { --alert: var(--hd-equip); }
+
+/* Sello circular del Ministerio */
+.hd-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 2px solid var(--stamp, var(--hd-equip));
+  color: var(--stamp, var(--hd-equip));
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.4);
+}
+.hd-stamp--red { --stamp: var(--hd-automaton); }
+.hd-stamp--yellow { --stamp: var(--hd-yellow); }
+
+/* Texto censurado */
+.hd-redacted {
+  background: var(--hd-text);
+  color: transparent;
+  padding: 0 2px;
+  user-select: none;
+  border-radius: 1px;
+}
+
+/* Chips de facción (ver src/lore/factions.js) */
+.hd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.hd-chip--automaton { color: var(--hd-automaton); }
+.hd-chip--terminid { color: var(--hd-terminid); }
+.hd-chip--illuminate { color: var(--hd-illuminate); }
+.hd-chip--super-earth { color: var(--hd-yellow); }
+
+/* ---------------------------------------------------------------------
+   15. TERMINAL / SALIDA
+   --------------------------------------------------------------------- */
+.hd-terminal {
+  position: relative;
+  min-height: 180px;
+  padding: var(--hd-space-4);
+  font-family: var(--hd-font-mono);
+  font-size: 15px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--hd-text);
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px),
+    rgb(0 0 0 / 0.55);
+  border: 1px solid var(--hd-border);
+}
+.hd-terminal--automaton {
+  color: var(--hd-automaton);
+  border-color: rgb(255 113 113 / 0.45);
+  text-shadow: 0 0 6px rgb(255 113 113 / 0.45);
+}
+.hd-terminal__placeholder { color: var(--hd-text-mute); text-shadow: none; }
+.hd-caret {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: hd-blink 1s steps(1) infinite;
+}
+@keyframes hd-blink { 50% { opacity: 0; } }
+
+/* ---------------------------------------------------------------------
+   16. PIE
+   --------------------------------------------------------------------- */
+.hd-footer {
+  border-top: 1px solid var(--hd-border);
+  background: rgb(10 11 12 / 0.95);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hd-text-dim);
+}
+.hd-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--hd-space-2);
+  min-height: 52px;
+  padding-top: var(--hd-space-4);
+  padding-bottom: var(--hd-space-4);
+  text-align: center;
+}
+.hd-footer__back { font-weight: 600; letter-spacing: 0.12em; }
+.hd-footer__legal { font-size: 11px; color: var(--hd-text-mute); }
+.hd-footer__disclaimer {
+  max-width: 72ch;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--hd-text-mute);
+}
+
+/* ---------------------------------------------------------------------
+   17. ANIMACIONES
+   --------------------------------------------------------------------- */
+.hd-fade-in { animation: hd-fade-in 260ms ease-out both; }
+@keyframes hd-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hd-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--hd-border-soft);
+  background: var(--hd-yellow);
+  color: var(--hd-text-on-yellow);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hd-ticker__track {
+  display: inline-block;
+  padding: 4px 0;
+  animation: hd-ticker 60s linear infinite;
+}
+@keyframes hd-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

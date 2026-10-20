@@ -1,0 +1,52 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: catthehacker/ubuntu:act-latest
+    env:
+      SITE_URL: ${{ vars.SITE_URL || 'https://ses.miarma.net' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Versioning
+        id: version
+        run: |
+          VERSION=$(sed -n 's/^ *"version": *"\(.*\)",*$/\1/p' package.json | head -n 1)
+          if ! printf '%s' "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::La versión de package.json no es major.minor.fix: '$VERSION'"
+            exit 1
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" > /dev/null; then
+            echo "::error::v$VERSION ya está publicada. Sube la versión en package.json."
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Image
+        env:
+          WEB_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          docker compose build
+          docker tag "ses-terminal-web:$WEB_VERSION" ses-terminal-web:latest
+
+      - name: Container
+        env:
+          WEB_VERSION: ${{ steps.version.outputs.version }}
+        run: docker compose up -d --no-build --remove-orphans
+
+      - name: Git tag
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: Clean orphan images
+        run: docker image prune -f

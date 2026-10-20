@@ -1,0 +1,21 @@
+name: ses-terminal
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://ses.miarma.net}
+    image: ses-terminal-web:${WEB_VERSION:-latest}
+    container_name: ses-terminal
+    restart: unless-stopped
+    networks:
+      - proxy_net
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+networks:
+  core_net:
+    external: true
