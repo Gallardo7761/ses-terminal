@@ -31,11 +31,6 @@ export const PHYSICIANS = [
 
 export const MAX_DIAGNOSES = 4
 
-export const pick = (list, not) => {
-  const options = list.length > 1 ? list.filter((x) => x !== not) : list
-  return options[Math.floor(Math.random() * options.length)]
-}
-
 export function randomDiagnoses(n = 3) {
   return [...DIAGNOSES]
     .sort(() => Math.random() - 0.5)

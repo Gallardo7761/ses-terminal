@@ -1,12 +1,13 @@
 import { AutomatonIcon, BinaryIcon, EyeIcon, MedicalIcon } from '@/components/Icons.jsx'
 import AutomatonDecoder from './automaton-decoder/AutomatonDecoder.jsx'
+import DissentReport from './dissent-report/DissentReport.jsx'
 import MedicalReport from './medical-report/MedicalReport.jsx'
 import { SERVICE_META } from './meta.js'
 
 const UI = {
   'automaton-decoder': { icon: BinaryIcon, component: AutomatonDecoder },
   'medical-certificate': { icon: MedicalIcon, component: MedicalReport },
-  'dissent-registry': { icon: EyeIcon },
+  'dissent-registry': { icon: EyeIcon, component: DissentReport },
   bestiary: { icon: AutomatonIcon },
 }
 

@@ -1,6 +1,7 @@
 import superEarthLogo from '@/assets/super-earth.webp'
 import humanityIcon from '@/assets/ministries/humanity.svg'
 import { SHIP } from '@/lore/ship.js'
+import { createPaper, loadImage, signature, tint } from '../shared/paper.js'
 
 export const WIDTH = 800
 export const HEIGHT = 1132
@@ -30,14 +31,7 @@ function loadAssets() {
   return assetsPromise
 }
 
-function loadImage(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.onload = () => resolve(img)
-    img.onerror = reject
-    img.src = src
-  })
-}
+const { text, measure, fillLine, cross, stars, wrap, ministryStamp } = createPaper({ ink: INK, pen: PEN, fonts: FONTS })
 
 /**
  * @param {HTMLCanvasElement} canvas
@@ -124,7 +118,7 @@ export async function drawReport(canvas, data) {
   text(ctx, (data.physician || '').toUpperCase(), x0, sy + 132, { font: FONTS.heading, stretch: true, maxWidth: 330 })
 
   // --- Sello del Ministerio de Humanidad
-  ministryStamp(ctx, stampImg, 525, sy + 50)
+  ministryStamp(ctx, stampImg, 525, sy + 50, { color: HUMANITY, title: 'VERIFICADO', ministry: 'MINISTERIO DE HUMANIDAD' })
 
   // --- Pie
   text(ctx, '[EL SERVICIO ES OBLIGATORIO · LOS DESERTORES SERÁN EJECUTADOS]', 400, 1080, {
@@ -133,122 +127,4 @@ export async function drawReport(canvas, data) {
     stretch: true,
     maxWidth: 520,
   })
-}
-
-function text(ctx, str, x, y, { font, color = INK, align = 'left', stretch = false, spacing = 0, maxWidth } = {}) {
-  ctx.font = font
-  if ('fontStretch' in ctx) ctx.fontStretch = stretch ? 'expanded' : 'normal'
-  if ('letterSpacing' in ctx) ctx.letterSpacing = `${spacing}px`
-  ctx.fillStyle = color
-  ctx.textAlign = align
-  ctx.fillText(str, x, y, maxWidth)
-  if ('letterSpacing' in ctx) ctx.letterSpacing = '0px'
-}
-
-function measure(ctx, str, font, stretch = false) {
-  ctx.font = font
-  if ('fontStretch' in ctx) ctx.fontStretch = stretch ? 'expanded' : 'normal'
-  return ctx.measureText(str).width
-}
-
-function fillLine(ctx, label, value, caption, x, y, endX) {
-  text(ctx, label, x, y, { font: FONTS.mono })
-  const start = x + measure(ctx, label, FONTS.mono) + 14
-  ctx.strokeStyle = INK
-  ctx.lineWidth = 1.5
-  ctx.beginPath()
-  ctx.moveTo(start, y + 4)
-  ctx.lineTo(endX, y + 4)
-  ctx.stroke()
-  const mid = (start + endX) / 2
-  text(ctx, caption, mid, y + 22, { font: FONTS.caption, align: 'center' })
-  if (value) text(ctx, value, mid, y - 6, { font: FONTS.hand, color: PEN, align: 'center', maxWidth: endX - start - 10 })
-}
-
-function cross(ctx, x, y, size) {
-  ctx.save()
-  ctx.strokeStyle = PEN
-  ctx.lineWidth = 3
-  ctx.lineCap = 'round'
-  ctx.beginPath()
-  ctx.moveTo(x + 3, y + 4)
-  ctx.quadraticCurveTo(x + size / 2, y + size / 2 + 2, x + size + 3, y + size - 1)
-  ctx.moveTo(x + size - 1, y + 1)
-  ctx.quadraticCurveTo(x + size / 2 - 2, y + size / 2, x + 2, y + size + 2)
-  ctx.stroke()
-  ctx.restore()
-}
-
-function stars(ctx, cx, cy, sizes) {
-  const gap = 6
-  const total = sizes.reduce((a, s) => a + s * 2, 0) + gap * (sizes.length - 1)
-  let x = cx - total / 2
-  ctx.fillStyle = INK
-  for (const s of sizes) {
-    star(ctx, x + s, cy, s)
-    x += s * 2 + gap
-  }
-}
-
-function star(ctx, cx, cy, r) {
-  ctx.beginPath()
-  for (let i = 0; i < 10; i++) {
-    const rad = i % 2 ? r * 0.42 : r
-    const a = (Math.PI / 5) * i - Math.PI / 2
-    ctx.lineTo(cx + rad * Math.cos(a), cy + rad * Math.sin(a))
-  }
-  ctx.closePath()
-  ctx.fill()
-}
-
-function ministryStamp(ctx, icon, cx, cy) {
-  ctx.save()
-  ctx.translate(cx, cy)
-  ctx.rotate(-0.12)
-  ctx.globalAlpha = 0.85
-  ctx.strokeStyle = HUMANITY
-  ctx.lineWidth = 3
-  ctx.strokeRect(-125, -42, 250, 84)
-  ctx.lineWidth = 1
-  ctx.strokeRect(-119, -36, 238, 72)
-  ctx.drawImage(tint(icon, HUMANITY), -110, -26, 52, 52)
-  text(ctx, 'VERIFICADO', -48, -8, { font: '800 22px Archivo', color: HUMANITY, stretch: true, maxWidth: 160 })
-  text(ctx, 'MINISTERIO DE HUMANIDAD', -48, 16, { font: '700 12px Archivo', color: HUMANITY, maxWidth: 160 })
-  ctx.restore()
-}
-
-function tint(img, color) {
-  const c = document.createElement('canvas')
-  c.width = img.naturalWidth || 512
-  c.height = img.naturalHeight || 512
-  const g = c.getContext('2d')
-  g.drawImage(img, 0, 0, c.width, c.height)
-  g.globalCompositeOperation = 'source-in'
-  g.fillStyle = color
-  g.fillRect(0, 0, c.width, c.height)
-  return c
-}
-
-function wrap(ctx, str, maxWidth, font) {
-  ctx.font = font
-  if ('fontStretch' in ctx) ctx.fontStretch = 'normal'
-  const lines = []
-  let line = ''
-  for (const word of str.split(/\s+/)) {
-    const test = line ? `${line} ${word}` : word
-    if (ctx.measureText(test).width > maxWidth && line) {
-      lines.push(line)
-      line = word
-    } else {
-      line = test
-    }
-  }
-  if (line) lines.push(line)
-  return lines
-}
-
-function signature(name = '') {
-  const parts = name.replace(/^(Dra?\.)\s*/i, '').trim().split(/\s+/).filter(Boolean)
-  if (!parts.length) return ''
-  return parts.length > 1 ? `${parts[0][0]}. ${parts.at(-1)}` : parts[0]
 }

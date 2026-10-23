@@ -22,11 +22,11 @@ export const SERVICE_META = [
     id: 'dissent-registry',
     name: 'Registro de Disidencia',
     code: 'SVC-03',
-    description: 'Denuncie conductas antidemocráticas. Los héroes denuncian; los cobardes callan.',
-    accent: '#c08ae9',
+    description:
+      'Denuncie conductas antidemocráticas y obtenga su informe oficial para el Ministerio de la Verdad. Los héroes denuncian; los cobardes callan.',
+    accent: '#f88cf0',
     audience: 'Todos los ciudadanos',
-    ministries: ['unity'],
-    locked: true,
+    ministries: ['truth'],
   },
   {
     id: 'bestiary',

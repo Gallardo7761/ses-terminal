@@ -7,11 +7,11 @@ import {
   PHYSICIANS,
   PRESCRIPTIONS,
   codeSuffix,
-  pick,
   randomDiagnoses,
 } from './catalog.js'
 import { drawReport } from './drawReport.js'
-import { toLoreYear } from '@/util/year.js'
+import { loreDate, slugify } from '@/util/format.js'
+import { pick } from '@/util/random.js'
 import { SHIP } from '@/lore/ship.js'
 import './MedicalReport.css'
 
@@ -202,17 +202,3 @@ function buildDiagnosisRows(selected, custom) {
 }
 
 const maxSelectable = (custom) => MAX_DIAGNOSES - (custom.trim() ? 1 : 0)
-
-function loreDate(iso) {
-  if (!iso) return ''
-  const [y, m, d] = iso.split('-')
-  return `${d}/${m}/${toLoreYear(y)}`
-}
-
-const slugify = (s) =>
-  s
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
