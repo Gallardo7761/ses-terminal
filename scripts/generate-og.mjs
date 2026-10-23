@@ -38,13 +38,17 @@ const image = (src, { size, x, y, tint }) => [
 
 function render(page) {
   const ministries = (page.ministries ?? []).map((id) => MINISTRIES[id])
-  const textX = COL + ministries.length * 76 + 8
-  const names = ministries.length > 1
-    ? ministries.map((m) => m.name.replace('Ministerio', 'Min.')).join(' · ')
-    : ministries[0]?.name
+  const icon = ministries.length > 3 ? 44 : 64
+  const step = icon + 12
+  const textX = COL + ministries.length * step + 8
+  const names = ministries.length > 2
+    ? `${ministries.length} ministerios competentes`
+    : ministries.length > 1
+      ? ministries.map((m) => m.name.replace('Ministerio', 'Min.')).join(' · ')
+      : ministries[0]?.name
   const footer = ministries.length
     ? [
-        ...ministries.flatMap((m, i) => image(fileURLToPath(m.icon), { size: 64, x: COL + i * 76, y: 500 })),
+        ...ministries.flatMap((m, i) => image(fileURLToPath(m.icon), { size: icon, x: COL + i * step, y: 500 + (64 - icon) / 2 })),
         ...text(`BAJO LA AUTORIDAD DE\n${names.toUpperCase()}`, {
           font: LABEL, size: 22, color: ministries.length > 1 ? '#e9e9e6' : ministries[0].color,
           x: textX, y: 503, w: W - textX - 40, h: 70, kerning: 2,

@@ -9,14 +9,14 @@ export const SERVICE_META = [
     ministries: ['defense', 'truth'],
   },
   {
-    id: 'medical-certificate',
-    name: 'Justificante Médico',
+    id: 'leave-permit',
+    name: 'Permiso de Excusa',
     code: 'SVC-02',
     description:
-      '¿Una dolencia le impide cumplir con su deber? Obtenga su justificante oficial al instante. Sin cita previa, sin preguntas incómodas.',
-    accent: '#bdd029',
+      '¿Algo le impide cumplir con su deber? Solicite su permiso para excusarse del servicio: bajas médicas, reeducación, voluntariado «voluntario» y más.',
+    accent: '#4fa3ff',
     audience: 'Todos los ciudadanos',
-    ministries: ['humanity'],
+    ministries: ['defense', 'humanity', 'unity', 'truth', 'science', 'prosperity'],
   },
   {
     id: 'dissent-registry',
@@ -27,15 +27,5 @@ export const SERVICE_META = [
     accent: '#f88cf0',
     audience: 'Todos los ciudadanos',
     ministries: ['truth'],
-  },
-  {
-    id: 'bestiary',
-    name: 'Bestiario Hostil',
-    code: 'SVC-04',
-    description: 'Fichas de amenaza de Termínidos, Iluminados y Autómatas & Cyborgs.',
-    accent: '#ffb900',
-    audience: 'Helldivers',
-    ministries: ['science'],
-    locked: true,
   },
 ]

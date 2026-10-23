@@ -19,14 +19,6 @@ export function BinaryIcon(props) {
   )
 }
 
-export function AutomatonIcon(props) {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <path d="M6 4h20l3 6v12l-5 6H8l-5-6V10l3-6Zm3 9v4h5v-4H9Zm9 0v4h5v-4h-5Zm-6 8v3h8v-3h-8Z" />
-    </svg>
-  )
-}
-
 export function LockIcon(props) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
@@ -59,10 +51,10 @@ export function GlobeIcon(props) {
   )
 }
 
-export function MedicalIcon(props) {
+export function PermitIcon(props) {
   return (
     <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <path d="M6 3h20v4h-2v22H8V7H6V3Zm8 8v4h-4v4h4v4h4v-4h4v-4h-4v-4h-4Z" />
+      <path d="M11 2h10v3h5v25H6V5h5V2Zm2 2v3h6V4h-6Zm-3 7v2h12v-2H10Zm0 5v2h8v-2h-8Zm11.6 3.4-4.1 4.1-2.1-2.1-1.4 1.4 3.5 3.5 5.5-5.5-1.4-1.4Z" />
     </svg>
   )
 }

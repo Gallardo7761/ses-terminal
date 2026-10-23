@@ -1,14 +1,13 @@
-import { AutomatonIcon, BinaryIcon, EyeIcon, MedicalIcon } from '@/components/Icons.jsx'
+import { BinaryIcon, EyeIcon, PermitIcon } from '@/components/Icons.jsx'
 import AutomatonDecoder from './automaton-decoder/AutomatonDecoder.jsx'
 import DissentReport from './dissent-report/DissentReport.jsx'
-import MedicalReport from './medical-report/MedicalReport.jsx'
+import LeavePermit from './leave-permit/LeavePermit.jsx'
 import { SERVICE_META } from './meta.js'
 
 const UI = {
   'automaton-decoder': { icon: BinaryIcon, component: AutomatonDecoder },
-  'medical-certificate': { icon: MedicalIcon, component: MedicalReport },
+  'leave-permit': { icon: PermitIcon, component: LeavePermit },
   'dissent-registry': { icon: EyeIcon, component: DissentReport },
-  bestiary: { icon: AutomatonIcon },
 }
 
 export const SERVICES = SERVICE_META.map((meta) => ({ ...meta, ...UI[meta.id] }))
