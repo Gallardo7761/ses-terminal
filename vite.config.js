@@ -36,12 +36,23 @@ function socialMeta(siteUrl) {
   }
 }
 
+const proxy = {
+  '/api/hd2': {
+    target: 'https://api.live.prod.thehelldiversgame.com',
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api\/hd2/, '/api'),
+    headers: { 'Accept-Language': 'es-ES' },
+  },
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const siteUrl = (env.SITE_URL || 'http://localhost:5173').replace(/\/$/, '')
 
   return {
     plugins: [react(), socialMeta(siteUrl)],
+    server: { proxy },
+    preview: { proxy },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

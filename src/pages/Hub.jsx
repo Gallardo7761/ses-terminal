@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { LockIcon } from '@/components/Icons.jsx'
+import MajorOrder from '@/components/MajorOrder.jsx'
 import { Banner, Label, MinistryBadge, Panel } from '@/components/ui.jsx'
 import { DIRECTIVES } from '@/lore/directives.js'
 import { MINISTRIES } from '@/lore/ministries.js'
@@ -31,6 +32,8 @@ export default function Hub() {
           </div>
         </Panel>
       </div>
+
+      <MajorOrder />
 
       <Label>Servicios disponibles</Label>
       <div className="hd-grid hd-grid--auto">
