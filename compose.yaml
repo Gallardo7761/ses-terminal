@@ -1,11 +1,28 @@
+x-hardening: &hardening
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+  read_only: true
+  tmpfs:
+    - /tmp
+  restart: unless-stopped
+
 name: ses-terminal
 
 services:
   web:
+    <<: *hardening
+    mem_limit: 64m
+    pids_limit: 64
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
     build:
       context: .
       args:
-        SITE_URL: ${SITE_URL:-https://ses.miarma.net}
+        SITE_URL: ${SITE_URL:-https://ses.killobyte.es}
     image: ses-terminal-web:${WEB_VERSION:-latest}
     container_name: ses-terminal
     restart: unless-stopped
